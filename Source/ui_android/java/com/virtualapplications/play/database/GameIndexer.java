@@ -24,9 +24,11 @@ public class GameIndexer
 					.redirectErrorStream(true).start();
 			InputStream is = process.getInputStream();
 			byte[] buffer = new byte[1024];
-			while (is.read(buffer) != -1)
+			while(true)
 			{
-				s.append(new String(buffer));
+				int amountRead = is.read(buffer);
+				if(amountRead == -1) break;
+				s.append(new String(buffer, 0, amountRead));
 			}
 			is.close();
 			process.waitFor();
